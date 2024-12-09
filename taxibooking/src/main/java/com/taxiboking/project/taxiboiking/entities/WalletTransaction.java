@@ -3,11 +3,25 @@ package com.taxiboking.project.taxiboiking.entities;
 import com.taxiboking.project.taxiboiking.entities.enums.TransactionMethod;
 import com.taxiboking.project.taxiboiking.entities.enums.TransactionType;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Data
+@Table(indexes = {
+        @Index(name = "idx_wallet_transaction_wallet",columnList = "wallet_id"),
+        @Index(name = "idx_wallet_transaction_ride",columnList = "ride_id")
+
+})
+
+
 public class WalletTransaction {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -16,7 +30,7 @@ public class WalletTransaction {
     private TransactionType transactionType;
     private TransactionMethod transactionMethod;
 
-    @OneToOne
+    @ManyToOne
     private Ride ride;
     private String transactionId;
 

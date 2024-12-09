@@ -2,6 +2,7 @@ package com.taxiboking.project.taxiboiking.services;
 
 import com.taxiboking.project.taxiboiking.dto.DriverDto;
 import com.taxiboking.project.taxiboiking.dto.RideDto;
+import com.taxiboking.project.taxiboiking.dto.RiderDto;
 import com.taxiboking.project.taxiboiking.entities.Driver;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -18,13 +19,14 @@ public interface DriverService {
 
     RideDto endRide(Long rideId);
 
-    RideDto rateRider(Long rideId, Integer rating);
+    RiderDto rateRider(Long rideId, Integer rating);
 
     DriverDto getMyProfile();
 
     Page<RideDto> getAllMyRides(PageRequest pageRequest);
     Driver getCurrentDriver();
 
-    void updateDriverAvailability(Driver driver, boolean available);
+    Driver updateDriverAvailability(Driver driver, boolean available);
 
+    Driver createNewDriver(Driver driver);
 }

@@ -2,14 +2,14 @@ package com.taxiboking.project.taxiboiking.dto;
 
 import com.taxiboking.project.taxiboiking.entities.enums.PaymentMethod;
 import com.taxiboking.project.taxiboiking.entities.enums.RideStatus;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.locationtech.jts.geom.Point;
 
 import java.time.LocalDateTime;
 
 @Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class RideDto {

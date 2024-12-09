@@ -3,11 +3,17 @@ package com.taxiboking.project.taxiboiking.entities;
 import com.taxiboking.project.taxiboiking.entities.enums.PaymentMethod;
 import com.taxiboking.project.taxiboiking.entities.enums.PaymentStatus;
 import jakarta.persistence.*;
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

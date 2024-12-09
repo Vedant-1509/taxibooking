@@ -4,6 +4,7 @@ import com.taxiboking.project.taxiboiking.dto.RideRequestDto;
 import com.taxiboking.project.taxiboiking.entities.Driver;
 import com.taxiboking.project.taxiboiking.entities.Ride;
 import com.taxiboking.project.taxiboiking.entities.RideRequest;
+import com.taxiboking.project.taxiboiking.entities.Rider;
 import com.taxiboking.project.taxiboiking.entities.enums.RideRequestStatus;
 import com.taxiboking.project.taxiboiking.entities.enums.RideStatus;
 import com.taxiboking.project.taxiboiking.exceptions.ResourceNotFoundException;
@@ -51,13 +52,13 @@ public class RideServiceimpl implements RideService {
     }
 
     @Override
-    public Page<Ride> getAllridesOfRider(Long riderId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllridesOfRider(Rider rider, PageRequest pageRequest) {
+        return rideRepository.findByRider(rider,pageRequest);
     }
 
     @Override
-    public Page<Ride> getAllridesOfDriver(Long driverId, PageRequest pageRequest) {
-        return null;
+    public Page<Ride> getAllridesOfDriver(Driver driver, PageRequest pageRequest) {
+        return rideRepository.findByDriver(driver,pageRequest);
     }
 
     private String generateRandomOTP() {

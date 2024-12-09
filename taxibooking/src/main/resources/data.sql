@@ -86,3 +86,7 @@ INSERT INTO driver (id, user_id, rating, available, current_location) VALUES
 (18, 18, 4.4, false, ST_GeomFromText('POINT(77.2798 28.6173)', 4326)), -- Mayur Vihar
 (19, 19, 4.9, true, ST_GeomFromText('POINT(77.1502 28.5893)', 4326)), -- Hauz Khas
 (20, 20, 4.5, true, ST_GeomFromText('POINT(77.2913 28.6077)', 4326)); -- Laxmi Nagar
+
+INSERT INTO wallet (id,user_id,balance) VALUES
+(1,1,100),
+(2,2,500);

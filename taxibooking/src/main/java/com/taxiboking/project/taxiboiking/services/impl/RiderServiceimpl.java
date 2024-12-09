@@ -11,6 +11,7 @@ import com.taxiboking.project.taxiboiking.exceptions.ResourceNotFoundException;
 import com.taxiboking.project.taxiboiking.repositories.RideRequestRepository;
 import com.taxiboking.project.taxiboiking.repositories.RiderRepository;
 import com.taxiboking.project.taxiboiking.services.DriverService;
+import com.taxiboking.project.taxiboiking.services.RatingService;
 import com.taxiboking.project.taxiboiking.services.RideService;
 import com.taxiboking.project.taxiboiking.services.RiderService;
 import com.taxiboking.project.taxiboiking.strategies.RideStrategyManager;
@@ -36,6 +37,7 @@ public class RiderServiceimpl implements RiderService {
     private final RiderRepository riderRepository;
     private final RideService rideService;
     private final DriverService driverService;
+    private final RatingService ratingService;
 
     @Override
     @Transactional
@@ -87,7 +89,17 @@ public class RiderServiceimpl implements RiderService {
 
     @Override
     public DriverDto rateDriver(Long rideId, Integer rating) {
-        return null;
+        Ride ride = rideService.getRideById(rideId);
+        Rider rider =getCurrentRider();
+
+        if (!rider.equals(ride.getRider())){
+            throw new RuntimeException("Rider is not the owner of this ride");
+        }
+
+        if (!ride.getRideStatus().equals(RideStatus.ENDED)){
+            throw new RuntimeException("ride status is not ongoing hence cannot be started status "+ride.getRideStatus());
+        }
+        return ratingService.rateDriver(ride,rating);
     }
 
     @Override
@@ -99,7 +111,7 @@ public class RiderServiceimpl implements RiderService {
     @Override
     public Page<RideDto> getAllMyRides(PageRequest pageRequest) {
         Rider currentRider = getCurrentRider();
-        return rideService.getAllridesOfRider(currentRider.getId(),pageRequest)
+        return rideService.getAllridesOfRider(currentRider,pageRequest)
                 .map(ride -> modelMapper.map(ride,RideDto.class));
 
     }
@@ -116,7 +128,8 @@ public class RiderServiceimpl implements RiderService {
 
     @Override
     public Rider getCurrentRider() {
-        return riderRepository.findById(1L).orElseThrow(()->new ResourceNotFoundException("rider not foungd with id 1 "));
+        return riderRepository.findById(1L)
+                .orElseThrow(()->new ResourceNotFoundException("rider not foungd with id 1 "));
 
         //to implement spring security
     }

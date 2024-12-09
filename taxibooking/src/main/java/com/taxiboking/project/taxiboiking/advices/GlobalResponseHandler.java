@@ -8,6 +8,8 @@ import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseBodyAdvice;
 
+import java.util.List;
+
 @RestControllerAdvice
 public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
     @Override
@@ -19,7 +21,16 @@ public class GlobalResponseHandler implements ResponseBodyAdvice<Object> {
 
     @Override
     public Object beforeBodyWrite(Object body, MethodParameter returnType, MediaType selectedContentType, Class<? extends HttpMessageConverter<?>> selectedConverterType, ServerHttpRequest request, ServerHttpResponse response) {
-        if (body instanceof ApiResponse<?>){
+        List<String> allowedRoutes= List.of("/v3/api-docs","/actuator");
+
+        boolean isAllowed = allowedRoutes.stream().
+                anyMatch(routes->request.getURI()
+                        .getPath().contains(routes));
+
+
+
+
+        if (body instanceof ApiResponse<?>||isAllowed){
             return body;
         }
         return new ApiResponse<>(body);
